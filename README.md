@@ -26,6 +26,45 @@ Further down...
 	  end 
 	end
 
+A more complicated example
+--------------------------
+	namespace :api do
+	  self.api_version = 1
+	  self.vendor = "bulletin"
+  
+	  constraints ApiVersionCheck.new(:version => 1) do
+	     scope :module => :v1 do 
+	       cache_resources :as => :v1 do
+	        resources :authorizations, :only => [ :create ]
+	        resources :foo
+	        resources :bar
+	      end
+	     end
+	  end
+  
+	# Version 2 of the API has everything in Version 1, plus my_new_resource
+	# Version 2 will cache this entire package of resources
+	  constraints ApiVersionCheck.new(:version => 2) do
+	     scope :module => :v2 do 
+	       cache_resources :as => :v2 do 
+	         resources :my_new_resource
+	         inherit_resources :from => :v1
+	      end
+	     end
+	  end
+  
+	# Version 3 of the API has everything in API Version 2, and by
+	# virtue of API Version 2 having everything in Version 1, Version 3
+	# also has everything in Version 1.
+	
+	  constraints ApiVersionCheck.new(:version => 3) do
+	     scope :module => :v3 do 
+	        inherit_resources :from => :v2
+	     end
+	  end
+
+	end
+
 In your Gemfile
 	
 	gem 'api-versions'
