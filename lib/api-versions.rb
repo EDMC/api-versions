@@ -15,7 +15,12 @@ module ApiVersions
   
   module InstanceMethods
     def inherit_resources(args)
-      @resource_cache[args[:from]].call
+      blocks = Array.new
+      blocks << args[:from]
+      blocks.flatten!
+      blocks.each do |block|
+        @resource_cache[block].call
+      end
     end
     
     def cache_resources(args, &block)
