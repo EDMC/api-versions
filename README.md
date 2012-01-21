@@ -27,6 +27,7 @@ Further down...
 	end
 
 In your Gemfile
+	
 	gem 'api-versions'
 
 License
