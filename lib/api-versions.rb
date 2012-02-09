@@ -1,8 +1,17 @@
 require "api-versions/version"
 
 module ApiVersions
-  def has_common_resources
-    include InstanceMethods
+
+  def inherit_resources(args)
+    [*args[:from]].each do |block|
+      @resource_cache[block].call
+    end
+  end
+    
+  def cache_resources(args, &block)
+    @resource_cache ||= {}
+    @resource_cache.merge!(args[:as] => block)
+    block.call
   end
   
   def api_version=(version)
@@ -13,27 +22,10 @@ module ApiVersions
     @@vendor = vendor
   end
   
-  module InstanceMethods
-    def inherit_resources(args)
-      blocks = Array.new
-      blocks << args[:from]
-      blocks.flatten!
-      blocks.each do |block|
-        @resource_cache[block].call
-      end
-    end
-    
-    def cache_resources(args, &block)
-      @resource_cache ||= {}
-      @resource_cache.merge!(args[:as] => block)
-      block.call
-    end
-  end
-  
   class ApiVersionCheck
 
     def initialize(args = {})
-      @version = args[:version]
+      @process_version = args[:version]
     end
 
     def matches?(request)
@@ -47,11 +39,11 @@ module ApiVersions
     end
 
     def matches_version?(request)
-      !!(request.headers['Accept'] =~ /version\s*?=\s*?#{@version}\b/)
+      !!(request.headers['Accept'] =~ /version\s*?=\s*?#{@process_version}\b/)
     end
 
     def unversioned?(request)
-        @version == @@version && !(request.headers['Accept'] =~ /version\s*?=\s*?\d*\b/i)
+        @process_version == @@version && !(request.headers['Accept'] =~ /version\s*?=\s*?\d*\b/i)
     end
     
   end

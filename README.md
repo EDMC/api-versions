@@ -1,9 +1,13 @@
 API-Versions
 ================
-If you have multiple versions of an API, it is not very DRY to include the same resources over and over again.  Instead, in your routes.rb file:
+If you have multiple versions of an API, it is not very DRY to include the same resources over and over again.
+In your Gemfile:
+
+	gem "api-versions", "~> 0.0.2"
+	
+In your routes.rb file:
 
 	include ApiVersions
-	has_common_resources
 
 Further down...
 
@@ -64,10 +68,6 @@ A more complicated example
 	  end
 
 	end
-
-In your Gemfile
-	
-	gem 'api-versions'
 
 License
 =======
