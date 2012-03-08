@@ -14,7 +14,7 @@ In your routes.rb file:
 	   constraints api_version_check(:version => 1) do
 	     scope :module => :v1 do 
 	       cache_resources :as => :v1 do
-	         resources :authorizations, :only => [ :create ]
+	         resources :authorizations
 	       end
 	     end
 	  end
