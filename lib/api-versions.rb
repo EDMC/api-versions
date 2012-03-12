@@ -50,7 +50,7 @@ module ApiVersions
     private
 
     def accepts_proper_format?(request)
-      !!(request.headers['Accept'] =~ /^application\/vnd\.#{self.class.api_vendor}\+json/)
+      !!(request.headers['Accept'] =~ /^application\/vnd\.#{self.class.api_vendor}\+?.+/)
     end
 
     def matches_version?(request)
