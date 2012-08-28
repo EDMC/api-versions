@@ -1,29 +1,30 @@
-API-Versions
-================
+API-Versions [![Build Status](https://secure.travis-ci.org/erichmenge/api-versions.png)](http://travis-ci.org/erichmenge/api-versions)
+======================================================================================================================================
+
 If you have multiple versions of an API in your Rails app, it is not very DRY to include the same resources over and over again.
 In your Gemfile:
 
 	gem "api-versions", "~> 0.0.4"
-	
+
 In your routes.rb file:
 
 	namespace :api do
 	  default_api_version 	1   			 # If no API version is specified in the Accept header, this is what will be used.
 	  api_vendor 			"myvendor"   	 # For HTTP Accept Header application/vnd.myvendor+json;version=1
-  
+
 	   constraints api_version_check(:version => 1) do
-	     scope :module => :v1 do 
+	     scope :module => :v1 do
 	       cache_resources :as => :v1 do
 	         resources :authorizations
 	       end
 	     end
 	  end
-  
+
 	  constraints api_version_check(:version => 2) do
-	     scope :module => :v2 do 
+	     scope :module => :v2 do
 	       inherit_resources :from => :v1
 	     end
-	  end 
+	  end
 	end
 
 rake routes outputs:
@@ -50,9 +51,9 @@ A more complicated example
 	namespace :api do
 	  default_api_version 	1
 	  api_vendor 		 	"myvendor"
-  
+
 	  constraints api_version_check(:version => 1) do
-	     scope :module => :v1 do 
+	     scope :module => :v1 do
 	       cache_resources :as => :v1 do
 	        resources :authorizations, :only => [ :create ]
 	        resources :foo
@@ -60,24 +61,24 @@ A more complicated example
 	      end
 	     end
 	  end
-  
+
 	# Version 2 of the API has everything in Version 1, plus my_new_resource
 	# Version 2 will cache this entire package of resources
 	  constraints api_version_check(:version => 2) do
-	     scope :module => :v2 do 
-	       cache_resources :as => :v2 do 
+	     scope :module => :v2 do
+	       cache_resources :as => :v2 do
 	         resources :my_new_resource
 	         inherit_resources :from => :v1
 	      end
 	     end
 	  end
-  
+
 	# Version 3 of the API has everything in API Version 2, and by
 	# virtue of API Version 2 having everything in Version 1, Version 3
 	# also has everything in Version 1.
-	
+
 	  constraints api_version_check(:version => 3) do
-	     scope :module => :v3 do 
+	     scope :module => :v3 do
 	        inherit_resources :from => :v2
 	     end
 	  end
