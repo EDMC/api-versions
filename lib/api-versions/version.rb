@@ -1,5 +1,3 @@
-module Api
-  module Versions
+module ApiVersions
     VERSION = "0.0.5"
-  end
 end
