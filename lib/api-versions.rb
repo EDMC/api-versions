@@ -1,7 +1,7 @@
 require "api-versions/version"
 
 module ApiVersions
-  class Methods
+  class DSL
     def initialize(context, &block)
       @context = context
       instance_eval &block
@@ -64,7 +64,9 @@ module ApiVersions
     VersionCheck.default_version = options[:default_version]
     VersionCheck.vendor_string   = options[:vendor_string]
 
-    namespace(:api) { Methods.new(self, &block) }
+    raise "Please set a vendor_string for the api method" if options[:vendor_string].nil?
+
+    namespace(:api) { DSL.new(self, &block) }
   end
 end
 
