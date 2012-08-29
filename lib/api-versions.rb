@@ -14,7 +14,7 @@ module ApiVersions
     def version(version_number, &block)
       VersionCheck.default_version ||= version_number
 
-      constraints ApiVersions::VersionCheck.new(version: version_number) do
+      constraints VersionCheck.new(version: version_number) do
         scope({ module: "v#{version_number}" }, &block)
       end
     end
