@@ -60,11 +60,11 @@ describe 'API Routing' do
     end
 
     it "should default" do
-      original_version = ApiVersions::ApiVersionCheck.api_version
-      ApiVersions::ApiVersionCheck.api_version = 2
+      original_version = ApiVersions::VersionCheck.default_version
+      ApiVersions::VersionCheck.default_version = 2
       merge_and_stub new_api_foo_path, 'get', 'Accept' => 'application/vnd.myvendor+json'
       expect(get: new_api_foo_path).to route_to(controller: 'api/v2/foo', action: 'new')
-      ApiVersions::ApiVersionCheck.api_version = original_version
+      ApiVersions::VersionCheck.default_version = original_version
     end
   end
 

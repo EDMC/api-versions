@@ -1,36 +1,41 @@
 require "api-versions/version"
 
 module ApiVersions
-  def inherit_resources(args)
-    [*args[:from]].each do |block|
-      @resource_cache[block].call
+  class Methods
+    def initialize(context, &block)
+      @context = context
+      instance_eval &block
+    end
+
+    def method_missing(meth, *args)
+      @context.send(meth, *args)
+    end
+
+    def version(version_number, &block)
+      VersionCheck.default_version = version_number if VersionCheck.default_version.nil?
+
+      @context.instance_eval do
+        constraints ApiVersions::VersionCheck.new(version: version_number) do
+          scope({ module: "v#{version_number}" }, &block)
+        end
+      end
+    end
+
+    def inherit(args)
+      [*args[:from]].each do |block|
+        @context.instance_eval &@resource_cache[block]
+      end
+    end
+
+    def cache(args, &block)
+      @resource_cache ||= {}
+      @resource_cache[args[:as]] = block
+      @context.instance_eval &block
     end
   end
 
-  def cache_resources(args, &block)
-    @resource_cache ||= {}
-    @resource_cache.merge!(args[:as] => block)
-    block.call
-  end
-
-  def api_version=(version)
-    ApiVersions::ApiVersionCheck.api_version = version
-  end
-  alias_method :default_api_version, :api_version=
-
-
-  def vendor=(vendor)
-    ApiVersions::ApiVersionCheck.api_vendor = vendor
-  end
-  alias_method :api_vendor, :vendor=
-
-  def api_version_check(*args)
-    ApiVersions::ApiVersionCheck.new(*args)
-  end
-
-  class ApiVersionCheck
-
-    cattr_accessor :api_version, :api_vendor
+  class VersionCheck
+    cattr_accessor :default_version, :vendor_string
 
     def initialize(args = {})
       @process_version = args[:version]
@@ -43,7 +48,7 @@ module ApiVersions
     private
 
     def accepts_proper_format?(request)
-      !!(request.headers['Accept'] =~ /^application\/vnd\.#{self.class.api_vendor}\+.+/)
+      !!(request.headers['Accept'] =~ /^application\/vnd\.#{self.class.vendor_string}\+.+/)
     end
 
     def matches_version?(request)
@@ -51,8 +56,15 @@ module ApiVersions
     end
 
     def unversioned?(request)
-        @process_version == self.class.api_version && !(request.headers['Accept'] =~ /version\s*?=\s*?\d*\b/i)
+        @process_version == self.class.default_version && !(request.headers['Accept'] =~ /version\s*?=\s*?\d*\b/i)
     end
+  end
+
+  def api(options = {}, &block)
+    VersionCheck.default_version = options[:default_version]
+    VersionCheck.vendor_string   = options[:vendor_string]
+
+    namespace(:api) { Methods.new(self, &block) }
   end
 end
 
