@@ -12,7 +12,7 @@ module ApiVersions
     end
 
     def version(version_number, &block)
-      VersionCheck.default_version = version_number if VersionCheck.default_version.nil?
+      VersionCheck.default_version ||= version_number
 
       @context.instance_eval do
         constraints ApiVersions::VersionCheck.new(version: version_number) do
