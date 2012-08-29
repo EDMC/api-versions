@@ -11,6 +11,7 @@ In your Gemfile:
 
 In your routes.rb file:
 
+``` ruby
     api vendor_string: "myvendor", default_version: 1 do      # You can leave default_version out,
                                                               # but if you do the first version used will become the default
       version 1 do
@@ -23,6 +24,7 @@ In your routes.rb file:
         inherit from: 'v1'
       end
     end
+```
 
 `rake routes` outputs:
 
@@ -46,6 +48,7 @@ Then the client simply sets the Accept header "application/vnd.myvendor+json;ver
 
 A more complicated example:
 
+``` ruby
     api vendor_string: "myvendor", default_version: 1 do
       version 1 do
         cache as: 'v1' do
@@ -67,6 +70,7 @@ A more complicated example:
         inherit from: 'v2'
       end
     end
+```
 
 And finally `rake routes` outputs:
 
