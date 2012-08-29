@@ -24,7 +24,7 @@ In your routes.rb file:
       end
     end
 
-rake routes outputs:
+`rake routes` outputs:
 
     api_authorizations      GET    /api/authorizations(.:format)          api/v1/authorizations#index
                             POST   /api/authorizations(.:format)          api/v1/authorizations#create
