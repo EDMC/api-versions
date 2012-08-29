@@ -7,8 +7,8 @@ module ApiVersions
       instance_eval &block
     end
 
-    def method_missing(meth, *args)
-      @context.send(meth, *args)
+    def method_missing(meth, *args, &block)
+      @context.send(meth, *args, &block)
     end
 
     def version(version_number, &block)
