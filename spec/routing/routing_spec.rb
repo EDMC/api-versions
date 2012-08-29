@@ -68,6 +68,13 @@ describe 'API Routing' do
     end
   end
 
+  describe "V3" do
+    it "should copy foo" do
+      merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+json;version=3'
+      expect(get: new_api_bar_path).to route_to(controller: 'api/v3/bar', action: 'new')
+    end
+  end
+
   describe "Header syntax" do
     after(:each) do
       expect(get: new_api_bar_path).to route_to(controller: 'api/v1/bar', action: 'new')
