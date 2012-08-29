@@ -56,19 +56,19 @@ A more complicated example
       end
 
       version 2 do
-        inherit from: 'v1'
-
         cache as: 'v2' do
+          inherit from: 'v1'
           resources :my_new_resource
         end
       end
 
+      # V3 has everything in V2, and everything in V1 as well by virtue of V1 being cached in V2.
       version 3 do
-        inherit from: [ 'v1', 'v2' ]
+        inherit from: 'v2'
       end
     end
 
-And finally the `rake routes` output:
+And finally `rake routes` outputs:
 
     api_authorizations        POST   /api/authorizations(.:format)           api/v1/authorizations#create
                 api_foo_index GET    /api/foo(.:format)                      api/v1/foo#index
