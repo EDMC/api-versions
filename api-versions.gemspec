@@ -4,7 +4,7 @@ require "api-versions/version"
 
 Gem::Specification.new do |s|
   s.name        = "api-versions"
-  s.version     = Api::Versions::VERSION
+  s.version     = ApiVersions::VERSION
   s.authors     = ["Erich Menge"]
   s.email       = ["erich.menge@me.com"]
   s.homepage    = "https://github.com/erichmenge/api-versions"
