@@ -3,7 +3,7 @@ API-Versions [![Build Status](https://secure.travis-ci.org/erichmenge/api-versio
 
 If you have multiple versions of an API in your Rails app, it is not very DRY to include the same resources over and over again.
 
-Also, URL resources shouldn't change. Instead, API versions should be specified in the headers. The Api-Versions gem provides a nice DSL for this.
+Also, URL resources shouldn't change. Instead, API versions should be specified in the headers. The api-versions gem provides a nice DSL for this.
 
 In your Gemfile:
 
