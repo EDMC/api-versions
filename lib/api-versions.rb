@@ -2,13 +2,12 @@ require "api-versions/version"
 
 module ApiVersions
   class DSL
+    extend Forwardable
+
     def initialize(context, &block)
       @context = context
+      self.class.def_delegators :@context, *(@context.public_methods - public_methods)
       instance_eval &block
-    end
-
-    def method_missing(meth, *args, &block)
-      @context.send(meth, *args, &block)
     end
 
     def version(version_number, &block)
