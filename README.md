@@ -12,18 +12,18 @@ In your Gemfile:
 In your routes.rb file:
 
 ``` ruby
-    api vendor_string: "myvendor", default_version: 1 do      # You can leave default_version out,
-                                                              # but if you do the first version used will become the default
-      version 1 do
-        cache as: 'v1' do
-          resources :authorizations
-        end
-      end
-
-      version 2 do
-        inherit from: 'v1'
+  api vendor_string: "myvendor", default_version: 1 do      # You can leave default_version out,
+                                                            # but if you do the first version used will become the default
+    version 1 do
+      cache as: 'v1' do
+        resources :authorizations
       end
     end
+
+    version 2 do
+      inherit from: 'v1'
+    end
+  end
 ```
 
 `rake routes` outputs:
@@ -49,27 +49,27 @@ Then the client simply sets the Accept header "application/vnd.myvendor+json;ver
 A more complicated example:
 
 ``` ruby
-    api vendor_string: "myvendor", default_version: 1 do
-      version 1 do
-        cache as: 'v1' do
-          resources :authorizations, only: :create
-          resources :foo
-          resources :bar
-        end
-      end
-
-      version 2 do
-        cache as: 'v2' do
-          inherit from: 'v1'
-          resources :my_new_resource
-        end
-      end
-
-      # V3 has everything in V2, and everything in V1 as well by virtue of V1 being cached in V2.
-      version 3 do
-        inherit from: 'v2'
+  api vendor_string: "myvendor", default_version: 1 do
+    version 1 do
+      cache as: 'v1' do
+        resources :authorizations, only: :create
+        resources :foo
+        resources :bar
       end
     end
+
+    version 2 do
+      cache as: 'v2' do
+        inherit from: 'v1'
+        resources :my_new_resource
+      end
+    end
+
+    # V3 has everything in V2, and everything in V1 as well by virtue of V1 being cached in V2.
+    version 3 do
+      inherit from: 'v2'
+    end
+  end
 ```
 
 And finally `rake routes` outputs:
