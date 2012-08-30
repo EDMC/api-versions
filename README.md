@@ -7,13 +7,13 @@ Also, URL resources shouldn't change. Instead, API versions should be specified 
 
 In your Gemfile:
 
-  gem "api-versions", "~> 0.1.0"
+    gem "api-versions", "~> 0.1.0"
 
 In your routes.rb file:
 
 ``` ruby
-  api vendor_string: "myvendor", default_version: 1 do      # You can leave default_version out,
-                                                            # but if you do the first version used will become the default
+  # You can leave default_version out, but if you do the first version used will become the default
+  api vendor_string: "myvendor", default_version: 1 do
     version 1 do
       cache as: 'v1' do
         resources :authorizations
