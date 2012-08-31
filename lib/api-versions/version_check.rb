@@ -21,7 +21,7 @@ module ApiVersions
     end
 
     def unversioned?(request)
-        @process_version == self.class.default_version && !(request.headers['Accept'] =~ /version\s*?=\s*?\d*\b/i)
+      @process_version == self.class.default_version && !(request.headers['Accept'] =~ /version\s*?=\s*?\d*\b/i)
     end
   end
 end
