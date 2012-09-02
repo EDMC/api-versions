@@ -175,7 +175,7 @@ So instead of copying your prior version controllers over to the new ones and du
 or start from scratch by removing the inheritance.
 
 ## A word on Rails responders
-If you use `responds_to` and `responds_with` you'll run into a bit of a problem. Rails doesn't understand the Accept header so you'll get a 406 Unacceptable if you use `respond_to`.
+If you use `responds_to` and `responds_with` you'll run into a bit of a problem. Rails doesn't understand the Accept header so you'll get a 406 Unacceptable when you use `respond_to`.
 To get around this I suggest creating a base API controller and including ApiVersions::SimplifyFormat, which will set the format to the one specified with the + symbol in the Accept header.
 
 ``` ruby
