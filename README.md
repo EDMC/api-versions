@@ -14,7 +14,8 @@ api-versions is very lightweight. It adds a generator and only one method to the
 
 #### Assumptions api-versions makes:
 * You want the client to use headers to specify the API version instead of changing the URL. (`Accept` header of `application/vnd.myvendor+json;version=1` for example)
-* You specify your API version in whole integers. v1, v2, v3, etc. If you need semantic versioning for an API you're likely making too many backwards incompatible changes. API versions should not change all that often.
+* You specify your API version in whole integers. v1, v2, v3, etc.
+  If you need semantic versioning for an API you're likely making too many backwards incompatible changes. API versions should not change all that often.
 * Your API controllers will live under the `api/v{n}/` directory. For example `app/controllers/api/v1/authorizations_controller.rb`.
 
 ## Installation
@@ -23,8 +24,11 @@ In your Gemfile:
     gem "api-versions", "~> 0.1.0"
 
 ## Versions are specified by header, not by URL
-A lot of APIs are versioned by changing the URL. `http://test.host/api/v1/some_resource/new` for example. But is some_resource different from version 1 to version 2? It is likely the same resource, it is simply the interface that is changing.
-api-versions prefers the URLs stay the same. `http://test.host/api/some_resource/new` need not ever change (so long as the resource exists). The client specifies how it wants to interface with this resource with the `Accept` header. So if the client wants version 2 of the API, the `Accept` header might look like this: `application/vnd.myvendor+json;version=2`. A complete example is below.
+A lot of APIs are versioned by changing the URL. `http://test.host/api/v1/some_resource/new` for example.
+But is some_resource different from version 1 to version 2? It is likely the same resource, it is simply the interface that is changing.
+api-versions prefers the URLs stay the same. `http://test.host/api/some_resource/new` need not ever change (so long as the resource exists). The client specifies how it wants to interface with
+this resource with the `Accept` header. So if the client wants version 2 of the API, the `Accept` header might look like this: `application/vnd.myvendor+json;version=2`. A complete example is
+below.
 
 ## DSL ##
 api-versions provides a (very) lightweight DSL for your routes file. Everything having to do with your routes API lives in the api block. This DSL helps you version your API as well as providing a caching mechanism to prevent the need of copy/pasting the same resources into new versions of the API.
@@ -66,7 +70,8 @@ In your routes.rb file:
                             DELETE /api/authorizations/:id(.:format)      api/v2/authorizations#destroy
 
 
-Then the client simply sets the Accept header `application/vnd.myvendor+json;version=1`. If no version is specified, the default version you set will be assumed.  You'll of course still need to copy all of your controllers over, even if they haven't changed from version to version.  At least you'll remove a bit of the mess in your routes file.
+Then the client simply sets the Accept header `application/vnd.myvendor+json;version=1`. If no version is specified, the default version you set will be assumed.
+You'll of course still need to copy all of your controllers over, even if they haven't changed from version to version.  At least you'll remove a bit of the mess in your routes file.
 
 A more complicated example:
 
@@ -156,7 +161,8 @@ And finally `rake routes` outputs:
                               PUT    /api/my_new_resource/:id(.:format)      api/v3/my_new_resource#update
                               DELETE /api/my_new_resource/:id(.:format)      api/v3/my_new_resource#destroy
 ## api_versions:bump
-The api-versions gem provides a Rails generator called `api_versions:bump`. This generator will go through all of your API controllers and find the highest version number and bump all controllers with it up to the next in sequence.
+The api-versions gem provides a Rails generator called `api_versions:bump`. This generator will go through all of your API controllers and find the highest version number and bump
+all controllers with it up to the next in sequence.
 
 If for example you have a controller `api/v1/authorizations_controller.rb` it will create `api/v2/authorizations_controller.rb` and inside:
 
@@ -165,4 +171,17 @@ class Api::V2::AuthorizationsController < Api::V1::AuthorizationsController
 end
 ```
 
-So instead of copying your prior version controllers over to the new ones and duplicating all the code in them, you can redefine specific methods, or start from scratch by removing the inheritance.
+So instead of copying your prior version controllers over to the new ones and duplicating all the code in them, you can redefine specific methods,
+or start from scratch by removing the inheritance.
+
+### A word on Rails responders
+If you use `responds_to` and `responds_with` you'll run into a bit of a problem. Rails doesn't understand the Accept header so you'll get a 406 Unacceptable if you use `respond_to`.
+To get around this I suggest creating a base API controller and including ApiVersions::SimplifyFormat, which will set the format to the one specified with the + symbol in the Accept header.
+
+``` ruby
+class Api::V1::BaseController < ActionController::Base
+  include ApiVersions::SimplifyFormat
+end
+```
+
+This will set `request.format` accordingly.
