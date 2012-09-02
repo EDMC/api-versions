@@ -6,12 +6,13 @@ module ApiVersions
 
       def get_controllers
         Dir.chdir File.join(Rails.root, 'app', 'controllers') do
-          @controllers = Dir.glob('api/v**/*.rb')
+          @controllers = Dir.glob('api/v**/**/*.rb')
         end
 
         @highest_version = @controllers.map do |controller|
-          controller.match(/api\/v(.+)\//)[1]
+          controller.match(/api\/v(\d+?)\//)[1]
         end.max
+
         @controllers.keep_if { |element| element =~ /api\/v#{@highest_version}\// }
       end
 

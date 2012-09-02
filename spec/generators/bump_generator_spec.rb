@@ -25,6 +25,13 @@ describe ApiVersions::Generators::BumpGenerator do
       it { should contain /Api::V4::FooController < Api::V3::FooController/ }
     end
 
+    describe "Nested Controller" do
+      subject { file('app/controllers/api/v4/nests/nested_controller.rb') }
+
+      it { should exist }
+      it { should contain /Api::V4::Nests::NestedController < Api::V3::Nests::NestedController/ }
+    end
+
     describe "Users Controller" do
       subject { file('app/controllers/api/v4/users_controller.rb') }
 
