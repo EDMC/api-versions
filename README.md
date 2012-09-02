@@ -1,13 +1,35 @@
-API-Versions [![Build Status](https://secure.travis-ci.org/erichmenge/api-versions.png)](http://travis-ci.org/erichmenge/api-versions)
-======================================================================================================================================
+# api-versions [![Build Status](https://secure.travis-ci.org/erichmenge/api-versions.png)](http://travis-ci.org/erichmenge/api-versions) #
 
-If you have multiple versions of an API in your Rails app, it is not very DRY to include the same resources over and over again.
 
-Also, resource URLs shouldn't change. Instead, API versions should be specified in the headers. The api-versions gem provides a nice DSL for this.
+#### api-versions is a Gem to help you manage your Rails API endpoints.
+api-versions is very lightweight. It adds a generator and only one method to the Rails route mapper.
 
+##### It helps you in three ways:
+
+* Provides a DSL for versioning your API in your routes file, favoring client headers vs changing the resource URLs.
+* Provides methods to cache and retrieve resources in your routes file to keep it from getting cluttered
+* Provides a generator to bump your API controllers to the next version, while inheriting the previous version.
+
+*See below for more details on each of these topics*
+
+#### Assumptions api-versions makes:
+* You want the client to use headers to specify the API version instead of changing the URL. (`Accept` header of `application/vnd.myvendor+json;version=1` for example)
+* You specify your API version in whole integers. v1, v2, v3, etc. If you need semantic versioning for an API you're likely making too many backwards incompatible changes. API versions should not change all that often.
+* Your API controllers will live under the `api/v{n}/` directory. For example `app/controllers/api/v1/authorizations_controller.rb`.
+
+## Installation
 In your Gemfile:
 
     gem "api-versions", "~> 0.1.0"
+
+## Versions are specified by header, not by URL
+A lot of APIs are versioned by changing the URL. `http://test.host/api/v1/some_resource/new` for example. But is some_resource different from version 1 to version 2? It is likely the same resource, it is simply the interface that is changing.
+api-versions prefers the URLs stay the same. `http://test.host/api/some_resource/new` need not ever change (so long as the resource exists). The client specifies how it wants to interface with this resource with the `Accept` header. So if the client wants version 2 of the API, the `Accept` header might look like this: `application/vnd.myvendor+json;version=2`. A complete example is below.
+
+## DSL ##
+api-versions provides a (very) lightweight DSL for your routes file. Everything having to do with your routes API lives in the api block. This DSL helps you version your API as well as providing a caching mechanism to prevent the need of copy/pasting the same resources into new versions of the API.
+
+For example:
 
 In your routes.rb file:
 
@@ -44,7 +66,7 @@ In your routes.rb file:
                             DELETE /api/authorizations/:id(.:format)      api/v2/authorizations#destroy
 
 
-Then the client simply sets the Accept header "application/vnd.myvendor+json;version=1". If no version is specified, the default version you set will be assumed.  You'll of course still need to copy all of your controllers over, even if they haven't changed from version to version.  At least you'll remove a bit of the mess in your routes file.
+Then the client simply sets the Accept header `application/vnd.myvendor+json;version=1`. If no version is specified, the default version you set will be assumed.  You'll of course still need to copy all of your controllers over, even if they haven't changed from version to version.  At least you'll remove a bit of the mess in your routes file.
 
 A more complicated example:
 
@@ -133,13 +155,14 @@ And finally `rake routes` outputs:
                               GET    /api/my_new_resource/:id(.:format)      api/v3/my_new_resource#show
                               PUT    /api/my_new_resource/:id(.:format)      api/v3/my_new_resource#update
                               DELETE /api/my_new_resource/:id(.:format)      api/v3/my_new_resource#destroy
+## api_versions:bump
+The api-versions gem provides a Rails generator called `api_versions:bump`. This generator will go through all of your API controllers and find the highest version number and bump all controllers with it up to the next in sequence.
 
-License
-=======
-Copyright (c) 2012 Erich Menge
+If for example you have a controller `api/v1/authorizations_controller.rb` it will create `api/v2/authorizations_controller.rb` and inside:
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+``` ruby
+class Api::V2::AuthorizationsController < Api::V1::AuthorizationsController
+end
+```
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+So instead of copying your prior version controllers over to the new ones and duplicating all the code in them, you can redefine specific methods, or start from scratch by removing the inheritance.
