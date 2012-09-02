@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Erich Menge"]
   s.email       = ["erich.menge@me.com"]
   s.homepage    = "https://github.com/erichmenge/api-versions"
-  s.summary     = "Allows you to cache routing and then inherit it in other modules."
-  s.description = "Useful for API versioning."
+  s.summary     = "An API versioning gem for Rails."
+  s.description = "api-versions helps manage your app's API endpoints."
 
   s.rubyforge_project = "api-versions"
 
@@ -18,5 +18,6 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_development_dependency "rspec-rails"
+  s.add_development_dependency "rspec-rails", "~> 2.0"
+  s.add_development_dependency 'ammeter',  '0.2.5'
 end

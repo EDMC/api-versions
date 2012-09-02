@@ -17,4 +17,6 @@ Dummy::Application.routes.draw do
       inherit from: 'v2'
     end
   end
+
+  match '/app/index' => 'application#index'
 end

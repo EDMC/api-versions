@@ -13,15 +13,15 @@ module ApiVersions
     private
 
     def accepts_proper_format?(request)
-      !!(request.headers['Accept'] =~ /^application\/vnd\.#{self.class.vendor_string}\+.+/)
+      request.headers['Accept'] =~ /\Aapplication\/vnd\.#{self.class.vendor_string}\+.+/
     end
 
     def matches_version?(request)
-      !!(request.headers['Accept'] =~ /version\s*?=\s*?#{@process_version}\b/)
+      request.headers['Accept'] =~ /version\s*?=\s*?#{@process_version}\b/
     end
 
     def unversioned?(request)
-        @process_version == self.class.default_version && !(request.headers['Accept'] =~ /version\s*?=\s*?\d*\b/i)
+      @process_version == self.class.default_version && !(request.headers['Accept'] =~ /version\s*?=\s*?\d*\b/i)
     end
   end
 end

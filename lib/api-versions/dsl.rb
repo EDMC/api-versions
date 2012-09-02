@@ -17,7 +17,7 @@ module ApiVersions
     end
 
     def inherit(args)
-      [*args[:from]].each do |block|
+      Array.wrap(args[:from]).each do |block|
          @resource_cache[block].call
       end
     end

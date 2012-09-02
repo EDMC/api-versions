@@ -6,7 +6,7 @@ rvm:
 branches:
   only:
     - master
-    - develop
+    - production
 
 notifications:
   email:
