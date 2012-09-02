@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Erich Menge"]
   s.email       = ["erich.menge@me.com"]
   s.homepage    = "https://github.com/erichmenge/api-versions"
-  s.summary     = "An API versioning gem for Rails."
-  s.description = "api-versions helps manage your app's API endpoints."
+  s.summary     = "api-versions helps manage your Rails app API endpoints."
+  s.description = "api-versions helps manage your Rails app API endpoints."
 
   s.rubyforge_project = "api-versions"
 
@@ -17,6 +17,11 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
+
+  s.required_ruby_version = '>= 1.9'
+
+  s.add_dependency('actionpack', '~> 3.0')
+  s.add_dependency('activesupport', '~> 3.0')
 
   s.add_development_dependency "rspec-rails", "~> 2.0"
   s.add_development_dependency 'ammeter',  '0.2.5'
