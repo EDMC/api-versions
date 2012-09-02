@@ -21,7 +21,7 @@ api-versions is very lightweight. It adds a generator and only one method to the
 ## Installation
 In your Gemfile:
 
-    gem "api-versions", "~> 0.1.0"
+    gem "api-versions", "~> 0.2.0"
 
 ## Versions are specified by header, not by URL
 A lot of APIs are versioned by changing the URL. `http://test.host/api/v1/some_resource/new` for example.
