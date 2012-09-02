@@ -71,7 +71,7 @@ In your routes.rb file:
 
 
 Then the client simply sets the Accept header `application/vnd.myvendor+json;version=1`. If no version is specified, the default version you set will be assumed.
-You'll of course still need to copy all of your controllers over, even if they haven't changed from version to version.  At least you'll remove a bit of the mess in your routes file.
+You'll of course still need to copy all of your controllers over (or bump them automatically, see below), even if they haven't changed from version to version.  At least you'll remove a bit of the mess in your routes file.
 
 A more complicated example:
 
