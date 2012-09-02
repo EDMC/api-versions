@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'generators/api_versions/bump_generator'
 
 describe ApiVersions::Generators::BumpGenerator do
-
   before do
     destination File.expand_path("../../../tmp", __FILE__)
     prepare_destination
