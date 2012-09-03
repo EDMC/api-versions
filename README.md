@@ -181,6 +181,8 @@ To get around this I suggest creating a base API controller and including ApiVer
 ``` ruby
 class Api::V1::BaseController < ActionController::Base
   include ApiVersions::SimplifyFormat
+
+  respond_to :json
 end
 ```
 
