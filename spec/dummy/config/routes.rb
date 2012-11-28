@@ -18,5 +18,5 @@ Dummy::Application.routes.draw do
     end
   end
 
-  match '/app/index' => 'application#index'
+  get '/app/index' => 'application#index'
 end
