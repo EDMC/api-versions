@@ -25,7 +25,7 @@ module ApiVersions
     def cache(args, &block)
       @resource_cache ||= {}
       @resource_cache[args[:as]] = block
-      block.call
+      yield
     end
   end
 end
