@@ -4,7 +4,7 @@ module ApiVersions
 
     def initialize(context, &block)
       @context = context
-      self.class.def_delegators :@context, *(@context.public_methods - public_methods)
+      singleton_class.def_delegators :@context, *(@context.public_methods - public_methods)
       instance_eval &block
     end
 
