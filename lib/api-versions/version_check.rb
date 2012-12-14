@@ -13,7 +13,7 @@ module ApiVersions
     private
 
     def accepts_proper_format?(request)
-      request.headers['Accept'] =~ /\Aapplication\/vnd\.#{self.class.vendor_string}\+.+/
+      request.headers['Accept'] =~ /\Aapplication\/vnd\.#{self.class.vendor_string}\s*\+\s*.+/
     end
 
     def matches_version?(request)

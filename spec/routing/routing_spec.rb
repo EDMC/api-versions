@@ -93,7 +93,7 @@ describe 'API Routing' do
     end
 
     it "should allow spacing around the plus" do
-      merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+xml; version=1'
+      merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor + xml; version=1'
     end
   end
 end
