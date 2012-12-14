@@ -7,39 +7,24 @@ describe 'API Routing' do
   end
 
   describe "V1" do
-    context "when no header is set" do
-      it "doesn't route" do
-        expect(get: new_api_bar_path).to_not be_routable
-      end
+    it "should not route something from V2" do
+      merge_and_stub new_api_foo_path, 'get', 'Accept' => 'application/vnd.myvendor+json;version=1'
+      expect(get: new_api_foo_path).to_not be_routable
     end
 
-    context "when the header is set incorrectly" do
-      it "doesn't route" do
-        merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.mybadvendor+json;version=1'
-        expect(get: '/api/bar/new').to_not be_routable
-      end
+    it "should route" do
+      merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+json;version=1'
+      expect(get: new_api_bar_path).to route_to(controller: 'api/v1/bar', action: 'new')
     end
 
-    context "when it is set correctly" do
-      it "should not route something from V2" do
-        merge_and_stub new_api_foo_path, 'get', 'Accept' => 'application/vnd.myvendor+json;version=1'
-        expect(get: new_api_foo_path).to_not be_routable
-      end
+    it "should default" do
+      merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+json'
+      expect(get: new_api_bar_path).to route_to(controller: 'api/v1/bar', action: 'new')
+    end
 
-      it "should route" do
-        merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+json;version=1'
-        expect(get: new_api_bar_path).to route_to(controller: 'api/v1/bar', action: 'new')
-      end
-
-      it "should default" do
-        merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+json'
-        expect(get: new_api_bar_path).to route_to(controller: 'api/v1/bar', action: 'new')
-      end
-
-      it "should default with nothing after the semi-colon" do
-        merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+json; '
-        expect(get: new_api_bar_path).to route_to(controller: 'api/v1/bar', action: 'new')
-      end
+    it "should default with nothing after the semi-colon" do
+      merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+json; '
+      expect(get: new_api_bar_path).to route_to(controller: 'api/v1/bar', action: 'new')
     end
   end
 
@@ -76,24 +61,61 @@ describe 'API Routing' do
   end
 
   describe "Header syntax" do
-    after(:each) do
-      expect(get: new_api_bar_path).to route_to(controller: 'api/v1/bar', action: 'new')
+    context "when valid" do
+      after(:each) do
+        expect(get: new_api_bar_path).to route_to(controller: 'api/v1/bar', action: 'new')
+      end
+
+      context "the semi-colon" do
+        it "should allow spaces after" do
+          merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+json;   version=1'
+        end
+
+        it "should allow spaces before" do
+          merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor + xml ;version=1'
+        end
+
+        it "should allow spaces around" do
+          merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor + xml ; version=1'
+        end
+      end
+
+      context "the equal sign" do
+        it "should allow spacing before" do
+          merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+json; version =1'
+        end
+
+        it "should allow spacing after" do
+          merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+json; version= 1'
+        end
+
+        it "should allow spacing around" do
+          merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+json; version = 1'
+        end
+      end
+
+      context "the plus sign" do
+        it "should allow spacing before" do
+          merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor +xml; version=1'
+        end
+
+        it "should allow spacing after" do
+          merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+ xml; version=1'
+        end
+
+        it "should allow spacing around" do
+          merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor +xml; version=1'
+        end
+      end
     end
 
-    it "should allow spaces after the semi-colon" do
-      merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+json;   version=1'
+    it "should not route when invalid" do
+      merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.garbage+xml;version=1'
+      expect(get: new_api_bar_path).to_not route_to(controller: 'api/v1/bar', action: 'new')
     end
 
-    it "should allow other formats besides json" do
-      merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+xml; version=1'
-    end
-
-    it "should allow spacing around the equal sign" do
-      merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor+json; version = 1'
-    end
-
-    it "should allow spacing around the plus" do
-      merge_and_stub new_api_bar_path, 'get', 'Accept' => 'application/vnd.myvendor + xml; version=1'
+    it "should not route when no header is specified" do
+      expect(get: new_api_bar_path).to_not be_routable
     end
   end
 end
