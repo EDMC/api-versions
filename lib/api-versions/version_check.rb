@@ -1,6 +1,8 @@
 module ApiVersions
   class VersionCheck
-    cattr_accessor :default_version, :vendor_string
+    class << self
+      attr_accessor :default_version, :vendor_string
+    end
 
     def initialize(args = {})
       @process_version = args[:version]
