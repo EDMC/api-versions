@@ -1,2 +1,2 @@
-class Api::V3::BarController < ApplicationController
+class Api::V3::BarController < ActionController::Base
 end
