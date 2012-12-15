@@ -1,4 +1,4 @@
-# api-versions [![Build Status](https://secure.travis-ci.org/erichmenge/api-versions.png)](http://travis-ci.org/erichmenge/api-versions) #
+# api-versions [![Build Status](https://travis-ci.org/erichmenge/api-versions.png?branch=master)](https://travis-ci.org/erichmenge/api-versions) #
 
 
 #### api-versions is a Gem to help you manage your Rails API endpoints.
