@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class ApplicationController < ActionController::Base
+class SimplifiedFormat < ActionController::Base
   include ApiVersions::SimplifyFormat
 
   def index
@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   end
 end
 
-describe ApplicationController do
+describe SimplifiedFormat do
   describe "simplify format" do
     it "should set the format" do
       request.env['Accept'] = 'application/vnd.myvendor+json;version=1'

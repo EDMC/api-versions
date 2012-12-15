@@ -18,5 +18,5 @@ Dummy::Application.routes.draw do
     end
   end
 
-  get '/app/index' => 'application#index'
+  get 'index' => 'simplified_format#index'
 end
