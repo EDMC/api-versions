@@ -5,7 +5,7 @@ module ApiVersions
     def initialize(context, &block)
       @context = context
       singleton_class.def_delegators :@context, *(@context.public_methods - public_methods)
-      instance_eval(&block) 
+      instance_eval(&block)
     end
 
     def version(version_number, &block)
@@ -16,15 +16,15 @@ module ApiVersions
       end
     end
 
-    def inherit(args)
-      Array.wrap(args[:from]).each do |block|
+    def inherit(options)
+      Array.wrap(options[:from]).each do |block|
          @resource_cache[block].call
       end
     end
 
-    def cache(args, &block)
+    def cache(options, &block)
       @resource_cache ||= {}
-      @resource_cache[args[:as]] = block
+      @resource_cache[options[:as]] = block
       yield
     end
   end
