@@ -18,7 +18,7 @@ module ApiVersions
 
       def generate_new_controllers
         @controllers.each do |controller|
-          new_controller = controller.gsub /api\/v#{@highest_version}\//, "api/v#{@highest_version.to_i + 1}/"
+          new_controller = controller.gsub(/api\/v#{@highest_version}\//, "api/v#{@highest_version.to_i + 1}/")
           @current_new_controller = new_controller.chomp(File.extname(controller)).camelize
           @current_old_controller = controller.chomp(File.extname(controller)).camelize
           template 'controller.rb', File.join('app', 'controllers', new_controller)
