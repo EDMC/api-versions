@@ -3,7 +3,7 @@ module ApiVersions
     extend ActiveSupport::Concern
 
     included do
-      before_filter :simplify_format
+      prepend_before_filter :simplify_format
     end
 
     private
