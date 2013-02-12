@@ -9,7 +9,7 @@ module ApiVersions
     private
 
     def simplify_format
-      request.headers['Accept'] && request.headers['Accept'].match(/\+\s*(.+?)[;\s]/) { |m| request.format = m[1] }
+      request.headers['Accept'] && request.headers['Accept'].match(/\+\s*(\w+)/) { |m| request.format = m[1] }
     end
   end
 end
