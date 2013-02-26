@@ -3,6 +3,7 @@ before_install: gem install bundler
 
 rvm:
   - 1.9.3
+  - 2.0.0
 
 branches:
   only:
@@ -24,7 +25,6 @@ env:
 
 matrix:
   allow_failures:
-    - rvm: 2.0.0
     - env: RAILS_VERSION=3-2-stable
     - env: RAILS_VERSION=3-1-stable
     - env: RAILS_VERSION=3-0-stable
