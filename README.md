@@ -1,6 +1,11 @@
 # api-versions [![Build Status](https://travis-ci.org/erichmenge/api-versions.png?branch=master)](https://travis-ci.org/erichmenge/api-versions) #
 
 
+### Requirements
+* Rails 4 or Rails 3
+* Ruby 1.9 or greater
+
+
 #### api-versions is a Gem to help you manage your Rails API endpoints.
 api-versions is very lightweight. It adds a generator and only one method to the Rails route mapper.
 
