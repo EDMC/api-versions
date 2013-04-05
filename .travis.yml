@@ -16,12 +16,10 @@ notifications:
       - api-versions@erichmenge.com
 env:
   - RAILS_VERSION=3.0.20
-  - RAILS_VERSION=3.1.11
-  - RAILS_VERSION=3.2.12
-  - RAILS_VERSION=4.0.0.beta1
+  - RAILS_VERSION=3.1.12
+  - RAILS_VERSION=3.2.13
   - RAILS_VERSION=master
 
 matrix:
   allow_failures:
-    - env: RAILS_VERSION=4.0.0.beta1
     - env: RAILS_VERSION=master
