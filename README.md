@@ -2,7 +2,7 @@
 
 
 ### Requirements
-* Rails 4 or Rails 3
+* Rails 3 - Api-Versions version 1.
 * Ruby 1.9 or greater
 
 
