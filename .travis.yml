@@ -1,23 +1,15 @@
 language: ruby
-before_install: gem install bundler
 
 rvm:
   - 1.9.3
   - 2.0.0
 
-branches:
-  only:
-    - master
-    - production
-
 notifications:
   email:
     recipients:
-      - api-versions@erichmenge.com
+      - api-versions@erich.erichmenge.com
 env:
-  - RAILS_VERSION=3.0.20
-  - RAILS_VERSION=3.1.12
-  - RAILS_VERSION=3.2.13
+  - RAILS_VERSION=4-0-stable
   - RAILS_VERSION=master
 
 matrix:
