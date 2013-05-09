@@ -2,7 +2,7 @@
 
 
 ### Requirements
-* Rails 3 - Api-Versions version 1.
+* Rails 3 - api-versions [v1](https://github.com/erichmenge/api-versions/tree/v1.0).
 * Ruby 1.9 or greater
 
 
