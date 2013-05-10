@@ -61,6 +61,8 @@ describe 'API Routing' do
     context "when valid" do
       after(:each) do
         get new_api_bar_path, nil, 'HTTP_ACCEPT' => @accept_string
+        desired_format = /application\/.*\+\W*(?<format>\w+)\W*/.match(@accept_string)[:format]
+        response.content_type.should == "application/#{desired_format}"
         response.should be_success
       end
 

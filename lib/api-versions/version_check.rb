@@ -9,21 +9,25 @@ module ApiVersions
     end
 
     def matches?(request)
-      accepts_proper_format?(request) && (matches_version?(request) || unversioned?(request))
+      accepts = request.headers['Accept'].split(',')
+      accepts.any? do |accept|
+        accept.strip!
+        accepts_proper_format?(accept) && (matches_version?(accept) || unversioned?(accept))
+      end
     end
 
     private
 
-    def accepts_proper_format?(request)
-      request.headers['Accept'] =~ /\Aapplication\/vnd\.#{self.class.vendor_string}\s*\+\s*.+/
+    def accepts_proper_format?(accept_string)
+      accept_string =~ /\Aapplication\/vnd\.#{self.class.vendor_string}\s*\+\s*.+/
     end
 
-    def matches_version?(request)
-      request.headers['Accept'] =~ /version\s*?=\s*?#{@process_version}\b/
+    def matches_version?(accept_string)
+      accept_string =~ /version\s*?=\s*?#{@process_version}\b/
     end
 
-    def unversioned?(request)
-      @process_version == self.class.default_version && !(request.headers['Accept'] =~ /version\s*?=\s*?\d*\b/i)
+    def unversioned?(accept_string)
+      @process_version == self.class.default_version && !(accept_string =~ /version\s*?=\s*?\d*\b/i)
     end
   end
 end

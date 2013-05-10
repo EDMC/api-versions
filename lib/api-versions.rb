@@ -1,8 +1,8 @@
 require "api-versions/version"
 require "api-versions/version_check"
 require "api-versions/dsl"
-require "api-versions/simplify_format"
-
+require 'api-versions/middleware'
+require 'api-versions/railtie'
 
 module ApiVersions
   def api(options = {}, &block)
