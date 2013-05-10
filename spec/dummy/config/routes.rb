@@ -18,5 +18,7 @@ Dummy::Application.routes.draw do
     end
   end
 
+  get '*a' => 'errors#not_found'
+
   get 'index' => 'simplified_format#index'
 end
