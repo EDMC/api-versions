@@ -1,3 +1,5 @@
+require 'forwardable'
+
 module ApiVersions
   class DSL
     extend Forwardable
