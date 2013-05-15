@@ -11,7 +11,7 @@ module ApiVersions
     VersionCheck.default_version = options[:default_version]
     VersionCheck.vendor_string   = options[:vendor_string]
 
-    namespace(:api) { DSL.new(self, &block) }
+    namespace(:api, options) { DSL.new(self, &block) }
   end
 end
 

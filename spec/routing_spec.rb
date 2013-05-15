@@ -119,4 +119,10 @@ describe 'API Routing' do
       response.status.should == 404
     end
   end
+
+  describe 'paths' do
+    it "should pass options, such as :path, to the regular routing DSL" do
+      new_api_baz_path.should == '/baz/new'
+    end
+  end
 end

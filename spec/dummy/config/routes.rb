@@ -18,5 +18,13 @@ Dummy::Application.routes.draw do
     end
   end
 
+  api vendor_string: 'myvendor', path: '' do
+    version 1 do
+      cache as: 'v1' do
+        resources :baz
+      end
+    end
+  end
+
   get '*a' => 'errors#not_found'
 end
