@@ -5,6 +5,8 @@ module ApiVersions
     end
 
     def call(env)
+      return @app.call(env) unless env['HTTP_ACCEPT']
+
       accepts = env['HTTP_ACCEPT'].split(',')
       offset = 0
       accepts.dup.each_with_index do |accept, i|
