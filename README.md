@@ -1,4 +1,7 @@
-# api-versions [![Build Status](https://travis-ci.org/erichmenge/api-versions.png?branch=master)](https://travis-ci.org/erichmenge/api-versions) #
+# api-versions
+
+[![Build Status](https://travis-ci.org/erichmenge/api-versions.png?branch=master)](https://travis-ci.org/erichmenge/api-versions)
+[![Gem Version](https://badge.fury.io/rb/api-versions.png)](http://badge.fury.io/rb/api-versions)
 
 
 ### Requirements
