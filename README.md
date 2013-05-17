@@ -181,3 +181,28 @@ end
 
 So instead of copying your prior version controllers over to the new ones and duplicating all the code in them, you can redefine specific methods,
 or start from scratch by removing the inheritance.
+
+## Passing Rails Routing options
+The api-versions routing DSL will pass any options that are regularly accepted by Rails' own routing DSL. For example, if you are using an api subdomain and don't need your paths prefixed with `/api`, you can override it as you normally would:
+
+```ruby
+api vendor_string: 'myvendor', default_version: 1, path: '' do
+  version 1 do
+    cache as: 'v1' do
+      resources :foo
+    end
+  end
+end
+```
+
+Then a `rake routes` would show your desires fulfilled:
+
+```
+                              GET    /foo(.:format)                      api/v1/foo#index
+                              POST   /foo(.:format)                      api/v1/foo#create
+                              GET    /foo/new(.:format)                  api/v1/foo#new
+                              GET    /foo/:id/edit(.:format)             api/v1/foo#edit
+                              GET    /foo/:id(.:format)                  api/v1/foo#show
+                              PUT    /foo/:id(.:format)                  api/v2/foo#update
+                              DELETE /foo/:id(.:format)                  api/v2/foo#destroy
+```
