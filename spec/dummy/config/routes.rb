@@ -15,6 +15,10 @@ Dummy::Application.routes.draw do
 
     version 3 do
       inherit from: 'v2'
+
+      namespace :nests do
+        resources :nested
+      end
     end
   end
 
