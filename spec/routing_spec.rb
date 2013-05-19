@@ -55,6 +55,11 @@ describe 'API Routing' do
       get new_api_foo_path, nil, 'HTTP_ACCEPT' => 'application/vnd.myvendor+json;version=3'
       @controller.class.should == Api::V3::FooController
     end
+
+    it "should route to nested controllers" do
+      get new_api_nests_nested_path, nil, 'HTTP_ACCEPT' => 'application/vnd.myvendor+json;version=3'
+      @controller.class.should == Api::V3::Nests::NestedController
+    end
   end
 
   describe "Header syntax" do
@@ -72,11 +77,11 @@ describe 'API Routing' do
         end
 
         it "should allow spaces before" do
-          @accept_string = 'application/vnd.myvendor + xml ;version=1'
+          @accept_string = 'application/vnd.myvendor+xml ;version=1'
         end
 
         it "should allow spaces around" do
-          @accept_string = 'application/vnd.myvendor + xml ; version=1'
+          @accept_string = 'application/vnd.myvendor+xml ; version=1'
         end
       end
 
@@ -104,7 +109,7 @@ describe 'API Routing' do
         end
 
         it "should allow spacing around" do
-          @accept_string = 'application/vnd.myvendor +xml; version=1'
+          @accept_string = 'application/vnd.myvendor + xml; version=1'
         end
       end
     end
