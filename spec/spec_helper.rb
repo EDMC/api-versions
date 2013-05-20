@@ -1,3 +1,9 @@
+require 'coveralls'
+
+Coveralls.wear! do
+  add_filter "/spec/"
+end
+
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../dummy/config/environment", __FILE__)
 require 'rspec/rails'

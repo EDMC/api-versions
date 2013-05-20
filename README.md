@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/erichmenge/api-versions.png?branch=master)](https://travis-ci.org/erichmenge/api-versions)
 [![Gem Version](https://badge.fury.io/rb/api-versions.png)](http://badge.fury.io/rb/api-versions)
-
+[![Coverage Status](https://coveralls.io/repos/erichmenge/api-versions/badge.png)](https://coveralls.io/r/erichmenge/api-versions)
 
 ### Requirements
 * Rails 4 or Rails 3
