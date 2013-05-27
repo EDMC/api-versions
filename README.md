@@ -207,3 +207,39 @@ Then a `rake routes` would show your desires fulfilled:
                               PUT    /foo/:id(.:format)                  api/v2/foo#update
                               DELETE /foo/:id(.:format)                  api/v2/foo#destroy
 ```
+
+## Testing
+Because controller tests will not go through the routing constraints, you will get routing errors when testing API
+controllers.
+
+To avoid this problem you can use request/integration tests which will hit the routing constraints.
+
+RSpec:
+
+```ruby
+# spec/requests/api/v1/widgets_controller_spec.rb
+require 'spec_helper'
+
+describe Api::V1::WidgetsController do
+  describe "GET 'index'" do
+    it "should be successful" do
+      get '/api/widgets', {}, 'HTTP_ACCEPT' => 'application/vnd.myvendor+json; version=1'
+      response.should be_success
+    end
+  end
+end
+```
+
+Test::Unit:
+
+```ruby
+# test/integration/api/v1/widgets_controller_test.rb
+require 'test_helper'
+
+class Api::V1::WidgetsControllerTest < ActionDispatch::IntegrationTest
+  test "GET 'index'" do
+    get '/api/widgets', {}, 'HTTP_ACCEPT' => 'application/vnd.myvendor+json; version=1'
+    assert_response 200
+  end
+end
+```
