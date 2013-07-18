@@ -9,7 +9,7 @@ module ApiVersions
     end
 
     def matches?(request)
-      accepts = request.headers['Accept'].split(',')
+      accepts = request.headers['Accept'].try(:split, ',') || []
       accepts.any? do |accept|
         accept.strip!
         accepts_proper_format?(accept) && (matches_version?(accept) || unversioned?(accept))
