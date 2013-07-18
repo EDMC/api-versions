@@ -18,6 +18,11 @@ module ApiVersions
         end
       end
 
+      request = Rack::Request.new(env)
+      if request.path.include?('api') && !env['HTTP_ACCEPT'].include?("vnd.#{ApiVersions::VersionCheck.vendor_string}")
+        accepts.insert accepts.size - 1, "application/vnd.#{ApiVersions::VersionCheck.vendor_string}"
+      end
+
       env['HTTP_ACCEPT'] = accepts.join(',')
       @app.call(env)
     end
