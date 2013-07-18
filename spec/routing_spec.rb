@@ -114,14 +114,14 @@ describe 'API Routing' do
       end
     end
 
-    it "should not route when invalid" do
+    it "should route not matter if it is invalid" do
       get new_api_bar_path, nil, 'HTTP_ACCEPT' => 'application/vnd.garbage+xml;version=1'
-      response.status.should == 404
+      response.status.should == 200
     end
 
-    it "should not route when no header is specified" do
+    it "should also route when no header is specified" do
       get new_api_bar_path, nil
-      response.status.should == 404
+      response.status.should == 200
     end
   end
 
