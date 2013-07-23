@@ -6,6 +6,7 @@ module ApiVersions
 
     def call(env)
       return @app.call(env) unless env['HTTP_ACCEPT']
+      env['HTTP_ACCEPT'] += ",application/vnd.#{ApiVersions::VersionCheck.vendor_string}+json" unless env['HTTP_ACCEPT'].include?(ApiVersions::VersionCheck.vendor_string)
 
       accepts = env['HTTP_ACCEPT'].split(',')
       offset = 0
