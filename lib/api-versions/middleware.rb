@@ -5,10 +5,9 @@ module ApiVersions
     end
 
     def call(env)
-      return @app.call(env) unless env['HTTP_ACCEPT']
-      env['HTTP_ACCEPT'] += ",application/vnd.#{ApiVersions::VersionCheck.vendor_string}+json" unless env['HTTP_ACCEPT'].include?(ApiVersions::VersionCheck.vendor_string)
-
-      accepts = env['HTTP_ACCEPT'].split(',')
+      accept_string = env['HTTP_ACCEPT'] || ""
+      accepts = accept_string.split(',')
+      accepts.push("application/vnd.#{ApiVersions::VersionCheck.vendor_string}+json;version=1") unless accept_string.include?('application/vnd.')
       offset = 0
       accepts.dup.each_with_index do |accept, i|
         accept.strip!
