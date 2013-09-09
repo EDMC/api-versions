@@ -27,13 +27,13 @@ describe ApiVersions::Middleware do
     it "should add a default vendor accept to a nil Accept header" do
       request = Rack::MockRequest.env_for("/", lint: true, fatal: true)
       response = described_class.new(app).call(request).last
-      response.last.should == "application/json,application/vnd.#{ApiVersions::VersionCheck.vendor_string}+json;version=1"
+      response.last.should == "application/json,application/vnd.#{ApiVersions::VersionCheck.vendor_string}+json"
     end
 
     it "should add a default vendor accept to an empty Accept header" do
       request = Rack::MockRequest.env_for("/", "HTTP_ACCEPT" => '', lint: true, fatal: true)
       response = described_class.new(app).call(request).last
-      response.last.should == "application/json,application/vnd.#{ApiVersions::VersionCheck.vendor_string}+json;version=1"
+      response.last.should == "application/json,application/vnd.#{ApiVersions::VersionCheck.vendor_string}+json"
     end
   end
 end
