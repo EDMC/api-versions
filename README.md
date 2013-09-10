@@ -214,7 +214,7 @@ controllers.
 
 To avoid this problem you can use request/integration tests which will hit the routing constraints.
 
-RSpec:
+To do this in RSpec, you should only need to move your spec files from `spec/controllers.` to `spec/requests/`:
 
 ```ruby
 # spec/requests/api/v1/widgets_controller_spec.rb
@@ -230,7 +230,7 @@ describe Api::V1::WidgetsController do
 end
 ```
 
-Test::Unit:
+For Test::Unit, inherit from ActionDispatch::IntegrationTest:
 
 ```ruby
 # test/integration/api/v1/widgets_controller_test.rb
