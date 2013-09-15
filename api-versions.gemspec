@@ -5,9 +5,9 @@ require "api-versions/version"
 Gem::Specification.new do |s|
   s.name        = "api-versions"
   s.version     = ApiVersions::VERSION
-  s.authors     = ["Erich Menge"]
-  s.email       = ["erich.menge@me.com"]
-  s.homepage    = "https://github.com/erichmenge/api-versions"
+  s.authors     = ["Erich Menge", "David Celis"]
+  s.email       = ["erich.menge@me.com", "me@davidcel.is"]
+  s.homepage    = "https://github.com/EDMC/api-versions"
   s.summary     = "api-versions helps manage your Rails app API endpoints."
   s.description = "api-versions helps manage your Rails app API endpoints."
 
