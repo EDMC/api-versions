@@ -8,6 +8,7 @@ notifications:
   email:
     recipients:
       - api-versions@erich.erichmenge.com
+      - me@davidcel.is
 env:
   - RAILS_VERSION=3-0-stable
   - RAILS_VERSION=3-1-stable
