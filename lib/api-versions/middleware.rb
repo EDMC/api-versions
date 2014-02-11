@@ -18,7 +18,8 @@ module ApiVersions
         end
       end
 
-      env['HTTP_ACCEPT'] = accepts.join(',')
+      # Add a space between plus and xml to work around a Rails 4 bug
+      env['HTTP_ACCEPT'] = accepts.join(',').gsub("+xml", "+ xml")
       @app.call(env)
     end
   end
