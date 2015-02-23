@@ -1,8 +1,13 @@
 module ApiVersions
-  MAJOR = 1
-  MINOR = 2
-  PATCH = 0
-  PRE   = nil
+  class Version
+    MAJOR = 1
+    MINOR = 2
+    PATCH = 1
 
-  VERSION = [MAJOR, MINOR, PATCH, PRE].compact.join '.'
+    def self.to_s
+      [MAJOR, MINOR, PATCH].join('.')
+    end
+  end
+
+  VERSION = Version.to_s
 end
