@@ -6,8 +6,8 @@
 [![Code Climate](https://codeclimate.com/github/erichmenge/api-versions.png)](https://codeclimate.com/github/erichmenge/api-versions)
 
 ### Requirements
-* Rails 4 or Rails 3
-* Ruby 1.9 or greater
+* Rails 5.0+
+* Ruby 2.2+
 
 
 #### api-versions is a Gem to help you manage your Rails API endpoints.
