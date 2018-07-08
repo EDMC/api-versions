@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency('actionpack', '>= 3.0')
   s.add_dependency('activesupport', '>= 3.0')
 
-  s.add_development_dependency "rspec-rails", "~> 2.0"
-  s.add_development_dependency 'ammeter',  '0.2.5'
+  s.add_development_dependency "rspec-rails", "~> 3.7"
+  s.add_development_dependency 'ammeter',  '~> 1.1'
   s.add_development_dependency "coveralls"
 end
