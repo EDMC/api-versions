@@ -124,5 +124,19 @@ describe 'API Routing' do
     it "should pass options, such as :path, to the regular routing DSL" do
       new_api_baz_path.should == '/baz/new'
     end
+
+    it 'should be possible to use shallow routes with overwritten :path option' do
+      api_reply_path(1).should == '/replies/1'
+    end
+  end
+
+  describe 'namespace' do
+    it "should be possible to remove api namespace" do
+      new_qux_path.should == '/qux/new'
+    end
+
+    it "should be possible to overwrite api namespace" do
+      new_auth_api_quux_path.should == '/auth_api/quux/new'
+    end
   end
 end

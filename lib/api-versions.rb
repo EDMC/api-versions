@@ -11,7 +11,13 @@ module ApiVersions
     VersionCheck.default_version = options[:default_version]
     VersionCheck.vendor_string   = options[:vendor_string]
 
-    namespace(:api, options) { DSL.new(self, &block) }
+    api_namespace = options.fetch(:namespace, :api)
+
+    if api_namespace.blank?
+      DSL.new(self, &block)
+    else
+      namespace(api_namespace, options) { DSL.new(self, &block) }
+    end
   end
 end
 
