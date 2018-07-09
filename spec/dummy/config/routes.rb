@@ -30,5 +30,21 @@ Dummy::Application.routes.draw do
     end
   end
 
+  api vendor_string: 'myvendor', namespace: '' do
+    version 1 do
+      cache as: 'v1' do
+        resources :qux
+      end
+    end
+  end
+
+  api vendor_string: 'myvendor', namespace: 'auth_api' do
+    version 1 do
+      cache as: 'v1' do
+        resources :quux
+      end
+    end
+  end
+
   get '*a' => 'errors#not_found'
 end

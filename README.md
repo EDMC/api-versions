@@ -208,6 +208,24 @@ Then a `rake routes` would show your desires fulfilled:
                               DELETE /foo/:id(.:format)                  api/v2/foo#destroy
 ```
 
+It's also possible to configure route's namespace with `:namespace` option (if you want to remove namespacing at all just pass a blank string):
+
+```ruby
+api vendor_string: 'myvendor', default_version: 1, namespace: 'auth_api' do
+  version 1 do
+    cache as: 'v1' do
+      resources :foo, only: :index
+    end
+  end
+end
+```
+
+Then a `rake routes` would show your desires fulfilled:
+
+```
+                              GET    /auth_api/foo(.:format)             auth_api/v1/foo#index
+```
+
 ## Testing
 Because controller tests will not go through the routing constraints, you will get routing errors when testing API
 controllers.

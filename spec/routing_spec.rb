@@ -125,4 +125,14 @@ describe 'API Routing' do
       new_api_baz_path.should == '/baz/new'
     end
   end
+
+  describe 'namespace' do
+    it "should be possible to remove api namespace" do
+      new_qux_path.should == '/qux/new'
+    end
+
+    it "should be possible to overwrite api namespace" do
+      new_auth_api_quux_path.should == '/auth_api/quux/new'
+    end
+  end
 end
