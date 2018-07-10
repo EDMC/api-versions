@@ -6,39 +6,39 @@ describe 'API Routing' do
   describe "V1" do
     it "should not route something from V2" do
       get new_api_foo_path, headers: { 'HTTP_ACCEPT' => 'application/vnd.myvendor+json;version=1' }
-      response.status.should == 404
+      expect(response.status).to eq(404)
     end
 
     it "should route" do
       get new_api_bar_path, headers: { 'HTTP_ACCEPT' => 'application/vnd.myvendor+json;version=1' }
-      @controller.class.should == Api::V1::BarController
+      expect(@controller.class).to eq(Api::V1::BarController)
     end
 
     it "should default" do
       get new_api_bar_path, headers: { 'HTTP_ACCEPT' => 'application/vnd.myvendor+json' }
-      @controller.class.should == Api::V1::BarController
+      expect(@controller.class).to eq(Api::V1::BarController)
     end
 
     it "should default with nothing after the semi-colon" do
       get new_api_bar_path, headers: { 'HTTP_ACCEPT' => 'application/vnd.myvendor+json; ' }
-      @controller.class.should == Api::V1::BarController
+      expect(@controller.class).to eq(Api::V1::BarController)
     end
   end
 
   describe "V2" do
     it "should copy bar" do
       get new_api_bar_path, headers: { 'HTTP_ACCEPT' => 'application/vnd.myvendor+json;version=2' }
-      @controller.class.should == Api::V2::BarController
+      expect(@controller.class).to eq(Api::V2::BarController)
     end
 
     it "should add foo" do
       get new_api_foo_path, headers: { 'HTTP_ACCEPT' => 'application/vnd.myvendor+json;version=2' }
-      @controller.class.should == Api::V2::FooController
+      expect(@controller.class).to eq(Api::V2::FooController)
     end
 
     it "should not default" do
       get new_api_foo_path, headers: { 'HTTP_ACCEPT' => 'application/vnd.myvendor+json' }
-      response.status.should == 404
+      expect(response.status).to eq(404)
     end
 
     it "should default" do
@@ -46,19 +46,19 @@ describe 'API Routing' do
       ApiVersions::VersionCheck.default_version = 2
       get new_api_foo_path, headers: { 'HTTP_ACCEPT' => 'application/vnd.myvendor+json' }
       ApiVersions::VersionCheck.default_version = original_version
-      @controller.class.should == Api::V2::FooController
+      expect(@controller.class).to eq(Api::V2::FooController)
     end
   end
 
   describe "V3" do
     it "should copy foo" do
       get new_api_foo_path, headers: { 'HTTP_ACCEPT' => 'application/vnd.myvendor+json;version=3' }
-      @controller.class.should == Api::V3::FooController
+      expect(@controller.class).to eq(Api::V3::FooController)
     end
 
     it "should route to nested controllers" do
       get new_api_nests_nested_path, headers: { 'HTTP_ACCEPT' => 'application/vnd.myvendor+json;version=3' }
-      @controller.class.should == Api::V3::Nests::NestedController
+      expect(@controller.class).to eq(Api::V3::Nests::NestedController)
     end
   end
 
@@ -67,8 +67,8 @@ describe 'API Routing' do
       after(:each) do
         get new_api_bar_path, headers: { 'HTTP_ACCEPT' => @accept_string }
         desired_format = /application\/.*\+\s*(?<format>\w+)\s*/.match(@accept_string)[:format]
-        response.content_type.should == "application/#{desired_format}"
-        response.should be_success
+        expect(response.content_type).to eq("application/#{desired_format}")
+        expect(response).to be_successful
       end
 
       context "the semi-colon" do
@@ -116,27 +116,27 @@ describe 'API Routing' do
 
     it "should not route when invalid" do
       get new_api_bar_path, headers: { 'HTTP_ACCEPT' => 'application/vnd.garbage+xml;version=1' }
-      response.status.should == 404
+      expect(response.status).to eq(404)
     end
   end
 
   describe 'paths' do
     it "should pass options, such as :path, to the regular routing DSL" do
-      new_api_baz_path.should == '/baz/new'
+      expect(new_api_baz_path).to eq('/baz/new')
     end
 
     it 'should be possible to use shallow routes with overwritten :path option' do
-      api_reply_path(1).should == '/replies/1'
+      expect(api_reply_path(1)).to eq('/replies/1')
     end
   end
 
   describe 'namespace' do
     it "should be possible to remove api namespace" do
-      new_qux_path.should == '/qux/new'
+      expect(new_qux_path).to eq('/qux/new')
     end
 
     it "should be possible to overwrite api namespace" do
-      new_auth_api_quux_path.should == '/auth_api/quux/new'
+      expect(new_auth_api_quux_path).to eq('/auth_api/quux/new')
     end
   end
 end
