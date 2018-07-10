@@ -230,9 +230,30 @@ Then a `rake routes` would show your desires fulfilled:
 Because controller tests will not go through the routing constraints, you will get routing errors when testing API
 controllers.
 
-To avoid this problem you can use request/integration tests which will hit the routing constraints.
+To avoid this problem you can:
 
-To do this in RSpec, you should only need to move your spec files from `spec/controllers.` to `spec/requests/`:
+- add ApiVersion's controller test helper that fakes the routes for your controller:
+
+```ruby
+# spec/controllers/api/v1/widgets_controller_spec.rb
+require 'spec_helper'
+
+require 'api-versions/test/controller_helpers' # <- require helper
+
+describe Api::V1::WidgetsController do
+  extend ApiVersions::Test::ControllerHelpers # <- add it to the test
+  routes Api::V1::WidgetsController           # <- use it to add fake routes for given controller
+
+  describe "GET 'index'" do
+    it "should be successful" do
+      get '/api/widgets'
+      response.should be_success
+    end
+  end
+end
+```
+
+- use request/integration tests which will hit the routing constraints. To do this in RSpec, you should only need to move your spec files from `spec/controllers.` to `spec/requests/`:
 
 ```ruby
 # spec/requests/api/v1/widgets_controller_spec.rb
