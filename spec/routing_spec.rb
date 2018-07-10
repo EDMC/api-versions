@@ -68,7 +68,7 @@ describe 'API Routing' do
         get new_api_bar_path, headers: { 'HTTP_ACCEPT' => @accept_string }
         desired_format = /application\/.*\+\s*(?<format>\w+)\s*/.match(@accept_string)[:format]
         expect(response.content_type).to eq("application/#{desired_format}")
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       context "the semi-colon" do
